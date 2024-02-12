@@ -1,0 +1,41 @@
+import requests
+from bs4 import BeautifulSoup
+import csv
+
+# Define queries for web search
+queries = [
+    "Canoo industry analysis",
+    "Canoo competitors",
+    "Canoo market trends",
+    "Canoo financial performance"
+]
+
+# Function to scrape data from web links and save to CSV
+def scrape_and_save_data(queries):
+    # Initialize CSV writer
+    with open('canoo_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
+        fieldnames = ['Query', 'Data']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+        # Loop through each query
+        for query in queries:
+            try:
+                # Perform web search
+                search_url = f"https://www.example.com/search?q={query}"
+                response = requests.get(search_url)
+                soup = BeautifulSoup(response.text, 'html.parser')
+
+                # Extract relevant data from search results
+                # Example: Extract data from the HTML using BeautifulSoup
+                # extracted_data = soup.find('div', class_='result').text
+
+                # Save extracted data to CSV
+                writer.writerow({'Query': query, 'Data': extracted_data})
+
+                print(f"Data scraped for query: {query}")
+            except Exception as e:
+                print(f"Error scraping data for query {query}: {e}")
+
+# Call function to scrape and save data
+scrape_and_save_data(queries)
